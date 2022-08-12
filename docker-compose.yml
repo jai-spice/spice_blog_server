@@ -1,0 +1,27 @@
+version: '1.0'
+services:
+  server:
+    build: .  
+    ports:
+      - 8080:8080
+    volumes:
+      - code:/app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespw
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
+  code:
+    driver: local
