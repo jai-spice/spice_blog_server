@@ -5,7 +5,7 @@ class PostgreSQL {
   static final PostgreSQL instance = PostgreSQL._();
 
   PostgreSQL._() {
-    _connection = PostgreSQLConnection("0.0.0.0", 55002, 'postgres',
+    _connection = PostgreSQLConnection("0.0.0.0", 5432, 'postgres',
         username: 'postgres', password: 'postgrespw');
   }
 

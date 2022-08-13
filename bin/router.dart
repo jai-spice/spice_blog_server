@@ -5,5 +5,6 @@ import 'blogs/blogs.dart';
 
 final router = Router()
   ..post('/login', Auth.loginHandler)
+  ..post('/signup', Auth.signupHandler)
   ..post('/addBlog', Blogs.addBlog)
   ..get('/fetchAllBlogs', Blogs.fetchAllBlogs);

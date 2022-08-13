@@ -8,7 +8,12 @@ class Blogs {
   static Future<Response> fetchAllBlogs(Request request) async {
     final res = await PostgreSQL.instance.exec('SELECT * from public."Blogs"');
     if (res.isNotEmpty) {
-      return Response.ok(jsonEncode(res.map((e) => e.toColumnMap()).toList()));
+      return Response.ok(jsonEncode(res.map((e) {
+        final columnMap = e.toColumnMap();
+        columnMap['updatedAt'] =
+            (columnMap['updatedAt'] as DateTime).toIso8601String();
+        return columnMap;
+      }).toList()));
     } else {
       return Response.ok("[]");
     }
@@ -17,12 +22,11 @@ class Blogs {
   static Future<Response> addBlog(Request request) async {
     final data = await request.readAsString();
     final params = json.decode(data);
-
-    final res = await PostgreSQL.instance.exec(
-        'INSERT INTO public."Blogs" VALUES(\'${params['title']}\',\'${params['content']}\',\'${params['imageUrl']}\',\'${params['author']}\')');
-    if (res.isNotEmpty) {
-      return Response.ok(jsonEncode(res.first.toColumnMap()));
-    } else {
+    try {
+      await PostgreSQL.instance.exec(
+          'INSERT INTO public."Blogs" VALUES(\'${params['title']}\',\'${params['content']}\',\'${params['imageUrl']}\',\'${params['author']}\')');
+      return Response.ok("");
+    } catch (_) {
       return Response.badRequest();
     }
   }
