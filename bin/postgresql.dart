@@ -5,8 +5,13 @@ class PostgreSQL {
   static final PostgreSQL instance = PostgreSQL._();
 
   PostgreSQL._() {
-    _connection = PostgreSQLConnection("0.0.0.0", 5432, 'postgres',
-        username: 'postgres', password: 'postgrespw');
+    _connection = PostgreSQLConnection(
+      "containers-us-west-84.railway.app",
+      6620,
+      'railway',
+      username: 'postgres',
+      password: 'tFk3aauQ8NpMSeaY5Gem',
+    );
   }
 
   String get host => _connection.host;
