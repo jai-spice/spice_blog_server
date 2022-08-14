@@ -24,7 +24,7 @@ class Blogs {
     final params = json.decode(data);
     try {
       await PostgreSQL.instance.exec(
-          'INSERT INTO blogs VALUES(\'${params['title']}\',\'${params['content']}\',\'${params['imageUrl']}\',\'${params['author']}\')');
+          'INSERT INTO blogs VALUES(DEFAULT,\'${params['title']}\',\'${params['content']}\',\'${params['imageUrl']}\',\'${params['email']}\')');
       return Response.ok("");
     } catch (_) {
       return Response.badRequest();
