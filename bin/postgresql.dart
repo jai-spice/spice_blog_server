@@ -18,6 +18,6 @@ class PostgreSQL {
 
   Future<void> open() => _connection.open();
 
-  Future<PostgreSQLResult> exec(String fmtString) =>
+  Future<PostgreSQLResult> query(String fmtString) =>
       _connection.query(fmtString);
 }

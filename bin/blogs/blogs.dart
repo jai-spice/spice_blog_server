@@ -6,7 +6,7 @@ import '../postgresql.dart';
 
 class Blogs {
   static Future<Response> fetchAllBlogs(Request request) async {
-    final res = await PostgreSQL.instance.exec('SELECT * from blogs');
+    final res = await PostgreSQL.instance.query('SELECT * from blogs');
     if (res.isNotEmpty) {
       return Response.ok(jsonEncode(res.map((e) {
         final columnMap = e.toColumnMap();
@@ -23,8 +23,18 @@ class Blogs {
     final data = await request.readAsString();
     final params = json.decode(data);
     try {
-      await PostgreSQL.instance.exec(
+      await PostgreSQL.instance.query(
           'INSERT INTO blogs VALUES(DEFAULT,\'${params['title']}\',\'${params['content']}\',\'${params['imageUrl']}\',\'${params['email']}\')');
+      return Response.ok("");
+    } catch (_) {
+      return Response.badRequest();
+    }
+  }
+
+  static Future<Response> deleteBlogHandler(Request request) async {
+    try {
+      final id = request.url.queryParameters['id'];
+      await PostgreSQL.instance.query('DELETE FROM blogs WHERE id=$id');
       return Response.ok("");
     } catch (_) {
       return Response.badRequest();

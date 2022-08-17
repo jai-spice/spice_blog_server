@@ -10,7 +10,7 @@ class Auth {
     final params = json.decode(data);
 
     try {
-      await PostgreSQL.instance.exec(
+      await PostgreSQL.instance.query(
           'INSERT INTO users VALUES(\'${params['email']}\',\'${params['password']}\',\'${params['firstName']}\',\'${params['lastName']}\')');
       return Response.ok("");
     } catch (_) {
@@ -21,7 +21,7 @@ class Auth {
   static Future<Response> loginHandler(Request request) async {
     final data = await request.readAsString();
     final params = json.decode(data);
-    final res = await PostgreSQL.instance.exec(
+    final res = await PostgreSQL.instance.query(
         'SELECT * FROM users WHERE email=\'${params['email']}\' AND password=\'${params['password']}\'');
 
     final columnMap = res.first.toColumnMap();
