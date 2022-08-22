@@ -9,6 +9,7 @@ final router = Router()
   ..post('/login', Auth.loginHandler)
   ..post('/signup', Auth.signupHandler)
   ..post('/addBlog', Blogs.addBlog)
+  ..post('/fetchAllBlogs', Blogs.fetchAllBlogs)
   ..get('/ws', webSocketHandler(_handler))
   ..delete('/deleteBlog', Blogs.deleteBlogHandler);
 
