@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
+import 'package:shelf_web_socket/shelf_web_socket.dart';
 
 import 'postgresql.dart';
 import 'router.dart';
@@ -37,5 +38,16 @@ void main(List<String> args) async {
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(handler, ip, port);
+
+  final wsHandler = webSocketHandler((webSocket) {
+    webSocket.stream.listen((message) {
+      webSocket.sink.add("echo $message");
+    });
+  });
+
+  serve(wsHandler, ip, port).then((server) {
+    print('Serving at ws://${server.address.host}:${server.port}');
+  });
+
   print('Server listening on port ${server.port}');
 }

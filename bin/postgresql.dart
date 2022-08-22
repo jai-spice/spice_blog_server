@@ -24,10 +24,7 @@ class PostgreSQL {
 
   void notifications() {
     _connection.notifications.listen((event) {
-      print(event.channel);
-      print(event.payload);
-      print(event.processID);
-      if (event.payload == "blogs_modify_event") {}
+      if (event.channel == "blogs_modify_event") {}
     });
   }
 
