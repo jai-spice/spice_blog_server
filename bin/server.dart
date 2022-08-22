@@ -45,7 +45,7 @@ void main(List<String> args) async {
     });
   });
 
-  serve(wsHandler, ip, port).then((server) {
+  serve(wsHandler, ip, port + 1).then((server) {
     print('Serving at ws://${server.address.host}:${server.port}');
   });
 
