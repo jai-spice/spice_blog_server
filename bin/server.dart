@@ -37,7 +37,7 @@ void main(List<String> args) async {
 
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
-  final server = await serve(handler, ip, port);
+  // final server = await serve(handler, ip, port);
 
   final wsHandler = webSocketHandler((webSocket) {
     webSocket.stream.listen((message) {
@@ -45,9 +45,9 @@ void main(List<String> args) async {
     });
   });
 
-  serve(wsHandler, ip, port + 1).then((server) {
+  serve(wsHandler, ip, port).then((server) {
     print('Serving at ws://${server.address.host}:${server.port}');
   });
 
-  print('Server listening on port ${server.port}');
+  // print('Server listening on port ${server.port}');
 }
