@@ -7,5 +7,4 @@ final router = Router()
   ..post('/login', Auth.loginHandler)
   ..post('/signup', Auth.signupHandler)
   ..post('/addBlog', Blogs.addBlog)
-  ..delete('/deleteBlog', Blogs.deleteBlogHandler)
-  ..get('/fetchAllBlogs', Blogs.fetchAllBlogs);
+  ..delete('/deleteBlog', Blogs.deleteBlogHandler);

@@ -4,6 +4,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
+import 'blogs/blogs.dart';
 import 'postgresql.dart';
 import 'router.dart';
 
@@ -28,7 +29,6 @@ void main(List<String> args) async {
 
   await PostgreSQL.instance.listen();
 
-  PostgreSQL.instance.notifications();
   // Configure a pipeline that logs requests.
   final handler = Pipeline()
       .addMiddleware(fixCORS)
@@ -42,6 +42,10 @@ void main(List<String> args) async {
   final wsHandler = webSocketHandler((webSocket) {
     webSocket.stream.listen((message) {
       webSocket.sink.add("echo $message");
+    });
+
+    PostgreSQL.instance.notifications().listen((event) async {
+      webSocket.sink.add(await Blogs.fetchAllBlogs());
     });
   });
 

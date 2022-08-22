@@ -5,7 +5,7 @@ import 'package:shelf/shelf.dart';
 import '../postgresql.dart';
 
 class Blogs {
-  static Future<Response> fetchAllBlogs(Request request) async {
+  static Future<Response> fetchAllBlogs() async {
     final res = await PostgreSQL.instance.query('SELECT * from blogs');
     if (res.isNotEmpty) {
       return Response.ok(jsonEncode(res.map((e) {

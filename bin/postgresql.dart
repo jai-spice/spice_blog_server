@@ -22,10 +22,8 @@ class PostgreSQL {
     await _connection.execute('LISTEN blogs_modify_event');
   }
 
-  void notifications() {
-    _connection.notifications.listen((event) {
-      if (event.channel == "blogs_modify_event") {}
-    });
+  Stream<Notification> notifications() async* {
+    yield* _connection.notifications;
   }
 
   Future<PostgreSQLResult> query(String fmtString) =>
