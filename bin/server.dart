@@ -35,10 +35,6 @@ void main(List<String> args) async {
       .addMiddleware(logRequests())
       .addHandler(router);
 
-  // For running in containers, we respect the PORT environment variable.
-  final port = int.parse(Platform.environment['PORT'] ?? '8080');
-  final server = await serve(handler, ip, port + 1);
-
   final wsHandler = webSocketHandler((webSocket) {
     Blogs.fetchAllBlogs().then(webSocket.sink.add);
     PostgreSQL.instance.notifications().listen((event) async {
@@ -46,7 +42,12 @@ void main(List<String> args) async {
     });
   });
 
-  serve(wsHandler, ip, port).then((server) {
+  // For running in containers, we respect the PORT environment variable.
+  final port = int.parse(Platform.environment['PORT'] ?? '8080');
+  final wsPort = int.parse(Platform.environment['WS_PORT'] ?? '80');
+  final server = await serve(handler, ip, port);
+
+  serve(wsHandler, ip, wsPort).then((server) {
     print('Serving at ws://${server.address.host}:${server.port}');
   });
 
