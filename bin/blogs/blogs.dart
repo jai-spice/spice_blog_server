@@ -5,17 +5,17 @@ import 'package:shelf/shelf.dart';
 import '../postgresql.dart';
 
 class Blogs {
-  static Future<Response> fetchAllBlogs() async {
+  static Future<String> fetchAllBlogs() async {
     final res = await PostgreSQL.instance.query('SELECT * from blogs');
     if (res.isNotEmpty) {
-      return Response.ok(jsonEncode(res.map((e) {
+      return jsonEncode(res.map((e) {
         final columnMap = e.toColumnMap();
         columnMap['updatedat'] =
             (columnMap['updatedat'] as DateTime).toIso8601String();
         return columnMap;
-      }).toList()));
+      }).toList());
     } else {
-      return Response.ok("[]");
+      return "[]";
     }
   }
 
