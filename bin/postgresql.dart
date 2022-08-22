@@ -18,6 +18,14 @@ class PostgreSQL {
 
   Future<void> open() => _connection.open();
 
+  Future<void> listen() async {
+    await _connection.execute('LISTEN blogs_modify_event');
+    _connection.notifications.listen((event) {
+      print(event);
+      if (event.payload == "blogs_modify_event") {}
+    });
+  }
+
   Future<PostgreSQLResult> query(String fmtString) =>
       _connection.query(fmtString);
 }
