@@ -40,10 +40,7 @@ void main(List<String> args) async {
   final server = await serve(handler, ip, port + 1);
 
   final wsHandler = webSocketHandler((webSocket) {
-    webSocket.stream.listen((message) {
-      webSocket.sink.add("echo $message");
-    });
-
+    Blogs.fetchAllBlogs().then(webSocket.sink.add);
     PostgreSQL.instance.notifications().listen((event) async {
       webSocket.sink.add(await Blogs.fetchAllBlogs());
     });
