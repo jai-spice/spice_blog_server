@@ -25,6 +25,9 @@ void main(List<String> args) async {
 
   await PostgreSQL.instance.open();
 
+  await PostgreSQL.instance.listen();
+
+  PostgreSQL.instance.notifications();
   // Configure a pipeline that logs requests.
   final handler = Pipeline()
       .addMiddleware(fixCORS)

@@ -20,6 +20,9 @@ class PostgreSQL {
 
   Future<void> listen() async {
     await _connection.execute('LISTEN blogs_modify_event');
+  }
+
+  void notifications() {
     _connection.notifications.listen((event) {
       print(event);
       if (event.payload == "blogs_modify_event") {}
